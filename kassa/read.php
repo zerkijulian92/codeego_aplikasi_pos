@@ -25,7 +25,7 @@ $totalRows = mysqli_num_rows($eksekusi);
             <td><?php echo $no; ?></td>
             <td><?php echo $row['userkassa']; ?></td>
             <td><?php echo $row['fullname']; ?></td>
-            <td><a href="update.php">Edit</a> | <a href="delete.php?id=<?php echo $row['idkassa']; ?>">Hapus</a></td>
+            <td><a href="update.php?id=<?php echo $row['idkassa']; ?>">Edit</a> | <a href="delete.php?id=<?php echo $row['idkassa']; ?>">Hapus</a></td>
         </tr>
     <?php $no++;
     } while ($row = mysqli_fetch_assoc($eksekusi)) ?>
