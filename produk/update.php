@@ -1,6 +1,8 @@
 <?php
+// MEMANGGIL FUNGSI KONEKSI
 require_once('../koneksi/koneksi.php');
 
+// MEMANGGIL DATA DI TABEL KATEGORI BERDASARKAN IDKATEGORI
 $queryKategori = "SELECT  * FROM kategori ORDER BY idkategori ASC";
 $kategori = mysqli_query($koneksi, $queryKategori) or die(errorQuery(mysqli_error($koneksi)));
 $rowKategori = mysqli_fetch_assoc($kategori);
