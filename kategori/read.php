@@ -1,8 +1,19 @@
 <?php
 // menghubungkan ke file koneksi.php
 require_once('../koneksi/koneksi.php');
+// MENAMBAHKAN FUNGSI CARI
+$cari = "-1";
+if (isset($_GET['cari'])) {
+    $cari = $_GET['cari'];
+    $query = sprintf(
+        "SELECT * FROM kategori WHERE namakategori LIKE %s ORDER BY idkategori ASC",
+        inj($koneksi, "%" . $cari . "%", "text")
+    );
+} else {
+    $query = "SELECT * FROM kategori ORDER BY idkategori ASC";
+}
+//----
 
-$query = "SELECT  * FROM kategori ORDER BY idkategori ASC";
 $eksekusi = mysqli_query($koneksi, $query) or die(errorQuery(mysqli_error($koneksi)));
 $row = mysqli_fetch_assoc($eksekusi);
 $totalRows = mysqli_num_rows($eksekusi);
