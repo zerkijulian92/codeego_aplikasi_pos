@@ -91,13 +91,23 @@ if (!((isset($_SESSION['MM_Username'])) && (isAuthorized("", $MM_authorizedUsers
 <body>
     <h3>Selamat Datang</h3>
 
-    <a href="kassa/read.php">Kassa</a> |
-    <a href="kategori/read.php">Kategori</a> |
-    <a href="produk/read.php">Produk</a> |
+    <a href="?page=kassa/read">Kassa</a> |
+    <a href="?page=kategori/read">Kategori</a> |
+    <a href="?page=produk/read">Produk</a> |
     <a href="<?php echo $logoutAction; ?>">Logout</a>
+
+    <?php
+    if (isset($_GET["page"]) && $_GET["page"] != "home") {
+        if (file_exists(htmlentities($_GET["page"]) . ".php")) {
+            include(htmlentities($_GET["page"]) . ".php");
+        } else {
+            include("404.php");
+        }
+    } else {
+        include("home.php");
+    }
+    ?>
+
 </body>
 
 </html>
-
-
- 

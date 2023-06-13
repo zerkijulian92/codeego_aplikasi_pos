@@ -1,5 +1,5 @@
 <?php
-require_once('../koneksi/koneksi.php');
+require_once('koneksi/koneksi.php');
 
 // SIMPAN DATA
 $editFormAction = $_SERVER['PHP_SELF'];
@@ -46,7 +46,7 @@ $totalRows = mysqli_num_rows($eksekusi);
                                                     } ?> />Perempuan
 
     <br>
-    <button type="submit">Simpan</button><a href="read.php"> Lihat Data</a>
+    <button type="submit">Simpan</button><a href="?page=kassa/read"> Lihat Data</a>
     <input type="hidden" name="MM_update" value="form1">
     <input type="hidden" name="idkassa" value="<?php echo htmlentities($row['idkassa'], ENT_COMPAT, ''); ?>">
 </form>

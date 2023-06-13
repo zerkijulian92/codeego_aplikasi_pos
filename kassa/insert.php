@@ -1,5 +1,5 @@
 <?php
-require_once('../koneksi/koneksi.php');
+require_once('koneksi/koneksi.php');
 
 // SIMPAN DATA
 $editFormAction = $_SERVER['PHP_SELF'];
@@ -33,6 +33,6 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                                                     } ?> />Perempuan
 
     <br>
-    <button type="submit">Simpan</button><a href="read.php"> Lihat Data</a>
+    <button type="submit">Simpan</button><a href="?page=kassa/read"> Lihat Data</a>
     <input type="hidden" name="MM_insert" value="form1">
 </form>

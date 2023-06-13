@@ -1,7 +1,7 @@
 <?php
 
 // Memanggil koneksi
-require_once('../koneksi/koneksi.php');
+require_once('koneksi/koneksi.php');
 
 if ((isset($_GET['id'])) && ($_GET['id'] != "")) {
 
@@ -16,4 +16,4 @@ if ((isset($_GET['id'])) && ($_GET['id'] != "")) {
 ?>
 
 <h3>DATA BERHASIL DIHAPUS</h3>
-<a href="read.php">Kembali</a>
+<a href="?page=kassa/read">Kembali</a>
