@@ -1,6 +1,6 @@
 <?php
 // MEMANGGIL FUNGSI KONEKSI
-require_once('../koneksi/koneksi.php');
+require_once('koneksi/koneksi.php');
 
 // MEMANGGIL DATA DI TABEL KATEGORI BERDASARKAN IDKATEGORI
 $queryKategori = "SELECT  * FROM kategori ORDER BY idkategori ASC";
@@ -61,7 +61,7 @@ $totalRows = mysqli_num_rows($produk);
     <input type="text" name="hargadasar" value="<?php echo htmlentities($rowProduk['hargadasar'], ENT_COMPAT, ''); ?>"><br>
     <input type="text" name="hargajual" value="<?php echo htmlentities($rowProduk['hargajual'], ENT_COMPAT, ''); ?>"><br>
     <input type="text" name="stok" value="<?php echo htmlentities($rowProduk['stok'], ENT_COMPAT, ''); ?>"><br>
-    <button type="submit">Simpan</button><a href="read.php">Lihat Data</a>
+    <button type="submit">Simpan</button><a href="?page=produk/read">Lihat Data</a>
     <input type="hidden" name="MM_update" value="form1">
     <input type="hidden" name="idproduk" value="<?php echo htmlentities($rowProduk['idproduk'], ENT_COMPAT, ''); ?>">
 </form>

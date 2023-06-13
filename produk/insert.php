@@ -1,5 +1,5 @@
 <?php
-require_once('../koneksi/koneksi.php');
+require_once('koneksi/koneksi.php');
 
 $query = "SELECT  * FROM kategori ORDER BY idkategori ASC";
 $eksekusi = mysqli_query($koneksi, $query) or die(errorQuery(mysqli_error($koneksi)));
@@ -44,6 +44,6 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
     <input type="text" name="hargadasar" placeholder="Harga Dasar"><br>
     <input type="text" name="hargajual" placeholder="Harga Jual"><br>
     <input type="text" name="stok" placeholder="Stok Barang"><br>
-    <button type="submit">Simpan</button><a href="read.php">Lihat Data</a>
+    <button type="submit">Simpan</button><a href="?page=produk/read">Lihat Data</a>
     <input type="hidden" name="MM_insert" value="form1">
 </form>

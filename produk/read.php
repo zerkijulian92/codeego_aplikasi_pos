@@ -1,6 +1,6 @@
 <?php
 //MEMANGGIL FUNGSI KONEKSI
-require_once('../koneksi/koneksi.php');
+require_once('koneksi/koneksi.php');
 // MENAMBAHKAN FUNGSI CARI
 $cari = "-1";
 if (isset($_GET['cari'])) {
@@ -27,11 +27,12 @@ $totalRows = mysqli_num_rows($eksekusi);
 ?>
 
 <h3>DAFTAR PRODUK</h3>
-<a href="insert.php">Add Produk</a>
+<a href="?page=produk/insert">Add Produk</a>
 <p></p>
 <form action="" method="get">
     Cari Data : <input type="text" name="cari">
     <button type="sumbit">Search</button>
+    <input type="hidden" name="page" value="produk/read">
 </form>
 
 <!-- MENAMBAHKAN FUNGSI KETIKA DATA TIDAK TERSEDIA(KOSONG) -->
@@ -57,7 +58,7 @@ $totalRows = mysqli_num_rows($eksekusi);
                 <td><?php echo $row['hargadasar']; ?></td>
                 <td><?php echo $row['hargajual']; ?></td>
                 <td><?php echo $row['stok']; ?></td>
-                <td><a href="update.php?id=<?php echo $row['idproduk']; ?>">Edit</a> | <a href="delete.php?id=<?php echo $row['idproduk']; ?>">Hapus</a></td>
+                <td><a href="?page=produk/update&id=<?php echo $row['idproduk']; ?>">Edit</a> | <a href="?page=produk/delete&id=<?php echo $row['idproduk']; ?>">Hapus</a></td>
             </tr>
         <?php $nomor++;
         } while ($row = mysqli_fetch_assoc($eksekusi)); ?>
