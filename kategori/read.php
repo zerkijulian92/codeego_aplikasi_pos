@@ -1,6 +1,6 @@
 <?php
 // menghubungkan ke file koneksi.php
-require_once('../koneksi/koneksi.php');
+require_once('koneksi/koneksi.php');
 // MENAMBAHKAN FUNGSI CARI
 $cari = "-1";
 if (isset($_GET['cari'])) {
@@ -21,11 +21,12 @@ $totalRows = mysqli_num_rows($eksekusi);
 ?>
 
 <h3>DAFTAR KATEGORI</h3>
-<a href="insert.php">Kategori</a>
+<a href="?page=kategori/insert">Kategori</a>
 <p></p>
 <form action="" method="get">
     Cari Data : <input type="text" name="cari">
     <button type="submit">Search</button>
+    <input type="hidden" name="page" value="kategori/read">
 </form>
 
 <!-- MENAMBAHKAN FUNGSI KETIKA DATA TIDAK TERSEDIA(KOSONG) -->
@@ -45,7 +46,7 @@ $totalRows = mysqli_num_rows($eksekusi);
                 <td><?php echo $no; ?></td>
                 <td><?php echo $row['namakategori']; ?></td>
                 <td><?php echo $row['ketkategori']; ?></td>
-                <td><a href="update.php?id=<?php echo $row['idkategori']; ?>"> Edit</a> | <a href="delete.php?id=<?php echo $row['idkategori']; ?>">Hapus</td>
+                <td><a href="?page=kategori/update&id=<?php echo $row['idkategori']; ?>"> Edit</a> | <a href="?page=kategori/delete&id=<?php echo $row['idkategori']; ?>">Hapus</td>
             </tr>
         <?php
             $no++;
