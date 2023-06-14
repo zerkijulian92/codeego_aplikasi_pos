@@ -61,12 +61,57 @@ if ($totalRows > 0) {
 </head>
 
 <body>
+
+    <!-- Menampilkan Data Temp Transaksi -->
+    <?php
+    $queryTemp = "SELECT * FROM transaksi_temp ORDER BY idtr DESC";
+    $eksekusiTemp = mysqli_query($koneksi, $queryTemp) or die(errorQuery(mysqli_error($koneksi)));
+    $rowTemp = mysqli_fetch_assoc($eksekusiTemp);
+    $totalRowsTemp = mysqli_num_rows($eksekusiTemp);
+
+    ?>
+
     <h3>SCAN HERE</h3>
     <form action="" method="post">
         <label for="cari">Scan Barcode</label>
         <input type="text" name="search" id="cari">
         <button type="submit">search</button>
     </form>
+    <br>
+    <!--  -->
+    <?php if ($totalRowsTemp) { ?>
+        <table border="1">
+            <thead>
+                <tr>
+                    <td>NO</td>
+                    <td>PRODUK</td>
+                    <td>QTY</td>
+                    <td>PRICE</td>
+                    <td>POTONGAN</td>
+                    <td>ACTION</td>
+                </tr>
+            </thead>
+            <?php $no = 1;
+            do { ?>
+                <tbody>
+                    <tr>
+                        <td><?php echo $no; ?></td>
+                        <td><?php echo $rowTemp['nama_produk']; ?></td>
+                        <td><?php echo $rowTemp['qty']; ?></td>
+                        <td><?php echo $rowTemp['harga']; ?></td>
+                        <td><?php echo $rowTemp['potongan']; ?></td>
+                        <td>Batal</td>
+                    </tr>
+                </tbody>
+            <?php
+                $no++;
+            } while ($rowTemp = mysqli_fetch_assoc($eksekusiTemp)); ?>
+        </table>
+    <?php } else { ?>
+        Keranjang masih kosong
+    <?php } ?>
+    <!--  -->
+
 </body>
 
 </html>
