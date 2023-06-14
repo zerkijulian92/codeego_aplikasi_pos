@@ -1,4 +1,7 @@
 <?php
+// menghubungkan ke file koneksi.php
+require_once('koneksi/koneksi.php');
+
 // Menambahkan Fungsi Logout
 //initialize the session
 if (!isset($_SESSION)) {
@@ -76,7 +79,34 @@ if (!((isset($_SESSION['MM_Username'])) && (isAuthorized("", $MM_authorizedUsers
     header("Location: " . $MM_restrictGoTo);
     exit;
 }
+
 ?>
+
+<!-- MEMNAMPILKAN NAMA BERDASARKAN USER YANG LOGIN -->
+<!-- Note -->
+<!-- 
+Menambahkan script dibawah, dan jangan lupa tambahkan
+require_once('koneksi/koneksi.php'); // Untuk memanggil file koneksi.php
+
+ -->
+<?php
+$id = "-1";
+if (isset($_SESSION['MM_Username'])) {
+    $id = $_SESSION['MM_Username'];
+}
+
+$Login = sprintf(
+    "SELECT * FROM kassa WHERE userkassa = %s",
+    inj($koneksi, $id, "text")
+);
+
+$AksiLogin = mysqli_query($koneksi, $Login) or die(errorQuery(mysqli_error($koneksi)));
+$rowLogin = mysqli_fetch_assoc($AksiLogin);
+$totalRows = mysqli_num_rows($AksiLogin);
+
+?>
+<!-- // -->
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -89,7 +119,7 @@ if (!((isset($_SESSION['MM_Username'])) && (isAuthorized("", $MM_authorizedUsers
 </head>
 
 <body>
-    <h3>Selamat Datang</h3>
+    <h3>Selamat Datang, <?php echo $rowLogin['fullname']; ?></h3>
 
     <a href="?page=kassa/read">Kassa</a> |
     <a href="?page=kategori/read">Kategori</a> |

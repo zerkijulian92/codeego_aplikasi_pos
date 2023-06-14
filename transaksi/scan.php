@@ -24,6 +24,33 @@ $totalRows = mysqli_num_rows($eksekusi);
 ?>
 <!-- // -->
 
+<!--Periksa apakah data yang dicari ada di di dalam database atau tidak-->
+<?php
+$faktur = "000001";
+$periode = "2020";
+if ($totalRows > 0) {
+    $insertSQL = sprintf(
+        "INSERT INTO `transaksi_temp`(`faktur`, `tanggal`, `produk`, `nama_produk`, `harga`, `harga_dasar`, `qty`, `potongan`, `kassa`, `nama_kassa`, `periode`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+        inj($koneksi, $faktur, "text"),
+        inj($koneksi, date("Y-m-d"), "date"),
+        inj($koneksi, $row['kodeproduk'], "text"),
+        inj($koneksi, $row['namaproduk'], "text"),
+        inj($koneksi, $row['hargajual'], "double"),
+        inj($koneksi, $row['hargadasar'], "double"),
+        inj($koneksi, 1, "int"),
+        inj($koneksi, 0, "double"),
+        inj($koneksi, $rowLogin['idkassa'], "int"),
+        inj($koneksi, $rowLogin['fullname'], "text"),
+        inj($koneksi, $periode, "text")
+    );
+    $Result1 = mysqli_query($koneksi, $insertSQL) or die(errorQuery(mysqli_error($koneksi)));
+} else {
+    // echo "Data tidak ditemukan";
+}
+?>
+<!--  -->
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -40,17 +67,6 @@ $totalRows = mysqli_num_rows($eksekusi);
         <input type="text" name="search" id="cari">
         <button type="submit">search</button>
     </form>
-
-    <!--Periksa apakah data yang dicari ada di di dalam database atau tidak-->
-    <?php
-    if ($totalRows > 0) {
-        echo "Data ditemukan";
-    } else {
-        echo "Data tidak ditemukan";
-    }
-    ?>
-    <!--  -->
-
 </body>
 
 </html>
