@@ -29,21 +29,44 @@ $totalRows = mysqli_num_rows($eksekusi);
 $faktur = "000001";
 $periode = "2020";
 if ($totalRows > 0) {
-    $insertSQL = sprintf(
-        "INSERT INTO `transaksi_temp`(`faktur`, `tanggal`, `produk`, `nama_produk`, `harga`, `harga_dasar`, `qty`, `potongan`, `kassa`, `nama_kassa`, `periode`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-        inj($koneksi, $faktur, "text"),
-        inj($koneksi, date("Y-m-d"), "date"),
-        inj($koneksi, $row['kodeproduk'], "text"),
-        inj($koneksi, $row['namaproduk'], "text"),
-        inj($koneksi, $row['hargajual'], "double"),
-        inj($koneksi, $row['hargadasar'], "double"),
-        inj($koneksi, 1, "int"),
-        inj($koneksi, 0, "double"),
-        inj($koneksi, $rowLogin['idkassa'], "int"),
-        inj($koneksi, $rowLogin['fullname'], "text"),
-        inj($koneksi, $periode, "text")
+
+    //Cek Data Produk
+    $queryCek = sprintf(
+        "SELECT produk FROM transaksi_temp WHERE produk = %s AND faktur = %s",
+        inj($koneksi, $cari, "text"),
+        inj($koneksi, $faktur, "text")
     );
-    $Result1 = mysqli_query($koneksi, $insertSQL) or die(errorQuery(mysqli_error($koneksi)));
+    $cek = mysqli_query($koneksi, $queryCek) or die(errorQuery(mysqli_error($koneksi)));
+    $Rows = mysqli_num_rows($cek);
+    //--
+
+    // Aksi
+    if ($Rows > 0) {
+        //Jika data ditemukan
+        $updateQty = sprintf(
+            "UPDATE transaksi_temp SET qty = qty + 1 WHERE produk = %s AND faktur = %s",
+            inj($koneksi, $cari, "text"),
+            inj($koneksi, $faktur, "text")
+        );
+        $resultQty = mysqli_query($koneksi, $updateQty) or die(errorQuery(mysqli_error($koneksi)));
+    } else {
+        // Menyimpan data ke transaksi_temp
+        $insertSQL = sprintf(
+            "INSERT INTO `transaksi_temp`(`faktur`, `tanggal`, `produk`, `nama_produk`, `harga`, `harga_dasar`, `qty`, `potongan`, `kassa`, `nama_kassa`, `periode`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+            inj($koneksi, $faktur, "text"),
+            inj($koneksi, date("Y-m-d"), "date"),
+            inj($koneksi, $row['kodeproduk'], "text"),
+            inj($koneksi, $row['namaproduk'], "text"),
+            inj($koneksi, $row['hargajual'], "double"),
+            inj($koneksi, $row['hargadasar'], "double"),
+            inj($koneksi, 1, "int"),
+            inj($koneksi, 0, "double"),
+            inj($koneksi, $rowLogin['idkassa'], "int"),
+            inj($koneksi, $rowLogin['fullname'], "text"),
+            inj($koneksi, $periode, "text")
+        );
+        $Result1 = mysqli_query($koneksi, $insertSQL) or die(errorQuery(mysqli_error($koneksi)));
+    } // Simpan data
 } else {
     // echo "Data tidak ditemukan";
 }
@@ -96,7 +119,7 @@ if ($totalRows > 0) {
                 <tbody>
                     <tr>
                         <td><?php echo $no; ?></td>
-                        <td><?php echo $rowTemp['nama_produk']; ?></td>
+                        <td><?php echo $rowTemp['produk'] . " - " . $rowTemp['nama_produk']; ?></td>
                         <td><?php echo $rowTemp['qty']; ?></td>
                         <td><?php echo $rowTemp['harga']; ?></td>
                         <td><?php echo $rowTemp['potongan']; ?></td>
