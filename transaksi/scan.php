@@ -24,6 +24,21 @@ $totalRows = mysqli_num_rows($eksekusi);
 ?>
 <!-- // -->
 
+<!-- Fungsi Batal -->
+<?php
+if ((isset($_GET['id'])) && ($_GET['id'] != "")) {
+
+    $deleteSQL = sprintf(
+        "DELETE FROM transaksi_temp WHERE idtr=%s",
+        inj($koneksi, $_GET['id'], "int")
+    );
+
+    $Result1 = mysqli_query($koneksi, $deleteSQL) or die(errorQuery(mysqli_error($koneksi)));
+}
+
+?>
+<!-- // -->
+
 <!--Periksa apakah data yang dicari ada di di dalam database atau tidak-->
 <?php
 $faktur = "000001";
@@ -115,21 +130,25 @@ if ($totalRows > 0) {
                 </tr>
             </thead>
             <?php $no = 1;
+            $total = 0;
             do { ?>
                 <tbody>
                     <tr>
                         <td><?php echo $no; ?></td>
                         <td><?php echo $rowTemp['produk'] . " - " . $rowTemp['nama_produk']; ?></td>
                         <td><?php echo $rowTemp['qty']; ?></td>
-                        <td><?php echo $rowTemp['harga']; ?></td>
-                        <td><?php echo $rowTemp['potongan']; ?></td>
-                        <td>Batal</td>
+                        <td>Rp.<?php $price = $rowTemp['qty'] * $rowTemp['harga'];
+                                echo number_format($price); ?></td>
+                        <td>Rp.<?php echo number_format($rowTemp['potongan']); ?></td>
+                        <td><a href="?page=transaksi/scan&id=<?php echo $rowTemp['idtr']; ?>">Batal</a></td>
                     </tr>
                 </tbody>
             <?php
                 $no++;
+                $total += $price;
             } while ($rowTemp = mysqli_fetch_assoc($eksekusiTemp)); ?>
         </table>
+        <H3>Total Belanja : Rp. <?php echo number_format($total); ?></H3>
     <?php } else { ?>
         Keranjang masih kosong
     <?php } ?>

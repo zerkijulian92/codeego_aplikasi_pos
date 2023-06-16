@@ -3,7 +3,7 @@
 $hostname_koneksi = "localhost";
 $database_koneksi = "codeego_pos";
 $username_koneksi = "root";
-$password_koneksi = "";
+$password_koneksi = "Dibalikawan@92";
 $koneksi = mysqli_connect($hostname_koneksi, $username_koneksi, $password_koneksi) or
   trigger_error(mysqli_error($koneksi), E_USER_ERROR);
 mysqli_select_db($koneksi, $database_koneksi);

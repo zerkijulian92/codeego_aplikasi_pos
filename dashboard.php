@@ -119,6 +119,7 @@ $totalRows = mysqli_num_rows($AksiLogin);
 </head>
 
 <body>
+
     <h3>Selamat Datang, <?php echo $rowLogin['fullname']; ?></h3>
 
     <a href="?page=kassa/read">Kassa</a> |
