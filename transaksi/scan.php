@@ -88,72 +88,56 @@ if ($totalRows > 0) {
 ?>
 <!--  -->
 
+<!-- Menampilkan Data Temp Transaksi -->
+<?php
+$queryTemp = "SELECT * FROM transaksi_temp ORDER BY idtr DESC";
+$eksekusiTemp = mysqli_query($koneksi, $queryTemp) or die(errorQuery(mysqli_error($koneksi)));
+$rowTemp = mysqli_fetch_assoc($eksekusiTemp);
+$totalRowsTemp = mysqli_num_rows($eksekusiTemp);
 
-<!DOCTYPE html>
-<html lang="en">
+?>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Halaman Scan</title>
-</head>
-
-<body>
-
-    <!-- Menampilkan Data Temp Transaksi -->
-    <?php
-    $queryTemp = "SELECT * FROM transaksi_temp ORDER BY idtr DESC";
-    $eksekusiTemp = mysqli_query($koneksi, $queryTemp) or die(errorQuery(mysqli_error($koneksi)));
-    $rowTemp = mysqli_fetch_assoc($eksekusiTemp);
-    $totalRowsTemp = mysqli_num_rows($eksekusiTemp);
-
-    ?>
-
-    <h3>SCAN HERE</h3>
-    <form action="" method="post">
-        <label for="cari">Scan Barcode</label>
-        <input type="text" name="search" id="cari">
-        <button type="submit">search</button>
-    </form>
-    <br>
-    <!--  -->
-    <?php if ($totalRowsTemp) { ?>
-        <table border="1">
-            <thead>
+<h3>SCAN HERE</h3>
+<form action="" method="post">
+    <label for="cari">Scan Barcode</label>
+    <input type="text" name="search" id="cari">
+    <button type="submit">search</button>
+</form>
+<br>
+<!--  -->
+<?php if ($totalRowsTemp) { ?>
+    <table border="1">
+        <thead>
+            <tr>
+                <td>NO</td>
+                <td>PRODUK</td>
+                <td>QTY</td>
+                <td>PRICE</td>
+                <td>POTONGAN</td>
+                <td>ACTION</td>
+            </tr>
+        </thead>
+        <?php $no = 1;
+        $total = 0;
+        do { ?>
+            <tbody>
                 <tr>
-                    <td>NO</td>
-                    <td>PRODUK</td>
-                    <td>QTY</td>
-                    <td>PRICE</td>
-                    <td>POTONGAN</td>
-                    <td>ACTION</td>
+                    <td><?php echo $no; ?></td>
+                    <td><?php echo $rowTemp['produk'] . " - " . $rowTemp['nama_produk']; ?></td>
+                    <td><?php echo $rowTemp['qty']; ?></td>
+                    <td>Rp.<?php $price = $rowTemp['qty'] * $rowTemp['harga'];
+                            echo number_format($price); ?></td>
+                    <td>Rp.<?php echo number_format($rowTemp['potongan']); ?></td>
+                    <td><a href="?page=transaksi/scan&id=<?php echo $rowTemp['idtr']; ?>">Batal</a></td>
                 </tr>
-            </thead>
-            <?php $no = 1;
-            $total = 0;
-            do { ?>
-                <tbody>
-                    <tr>
-                        <td><?php echo $no; ?></td>
-                        <td><?php echo $rowTemp['produk'] . " - " . $rowTemp['nama_produk']; ?></td>
-                        <td><?php echo $rowTemp['qty']; ?></td>
-                        <td>Rp.<?php $price = $rowTemp['qty'] * $rowTemp['harga'];
-                                echo number_format($price); ?></td>
-                        <td>Rp.<?php echo number_format($rowTemp['potongan']); ?></td>
-                        <td><a href="?page=transaksi/scan&id=<?php echo $rowTemp['idtr']; ?>">Batal</a></td>
-                    </tr>
-                </tbody>
-            <?php
-                $no++;
-                $total += $price;
-            } while ($rowTemp = mysqli_fetch_assoc($eksekusiTemp)); ?>
-        </table>
-        <H3>Total Belanja : Rp. <?php echo number_format($total); ?></H3>
-    <?php } else { ?>
-        Keranjang masih kosong
-    <?php } ?>
-    <!--  -->
-
-</body>
-
-</html>
+            </tbody>
+        <?php
+            $no++;
+            $total += $price;
+        } while ($rowTemp = mysqli_fetch_assoc($eksekusiTemp)); ?>
+    </table>
+    <H3>Total Belanja : Rp. <?php echo number_format($total); ?></H3>
+<?php } else { ?>
+    Keranjang masih kosong
+<?php } ?>
+<!--  -->

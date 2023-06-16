@@ -107,38 +107,21 @@ $totalRows = mysqli_num_rows($AksiLogin);
 ?>
 <!-- // -->
 
+<h3>Selamat Datang, <?php echo $rowLogin['fullname']; ?></h3>
 
-<!DOCTYPE html>
-<html lang="en">
+<a href="?page=kassa/read">Kassa</a> |
+<a href="?page=kategori/read">Kategori</a> |
+<a href="?page=produk/read">Produk</a> |
+<a href="<?php echo $logoutAction; ?>">Logout</a>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-
-<body>
-
-    <h3>Selamat Datang, <?php echo $rowLogin['fullname']; ?></h3>
-
-    <a href="?page=kassa/read">Kassa</a> |
-    <a href="?page=kategori/read">Kategori</a> |
-    <a href="?page=produk/read">Produk</a> |
-    <a href="<?php echo $logoutAction; ?>">Logout</a>
-
-    <?php
-    if (isset($_GET["page"]) && $_GET["page"] != "home") {
-        if (file_exists(htmlentities($_GET["page"]) . ".php")) {
-            include(htmlentities($_GET["page"]) . ".php");
-        } else {
-            include("404.php");
-        }
+<?php
+if (isset($_GET["page"]) && $_GET["page"] != "home") {
+    if (file_exists(htmlentities($_GET["page"]) . ".php")) {
+        include(htmlentities($_GET["page"]) . ".php");
     } else {
-        include("home.php");
+        include("404.php");
     }
-    ?>
-
-</body>
-
-</html>
+} else {
+    include("home.php");
+}
+?>
