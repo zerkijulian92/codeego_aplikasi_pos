@@ -122,6 +122,6 @@ if (isset($_GET["page"]) && $_GET["page"] != "home") {
         include("404.php");
     }
 } else {
-    include("home.php");
+    include("transaksi/scan.php");
 }
 ?>

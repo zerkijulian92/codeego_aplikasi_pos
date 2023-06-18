@@ -122,6 +122,7 @@ if ((isset($_POST["MM_selesai"])) && ($_POST["MM_selesai"] == "selesai")) {
     $a = substr_replace($insertSQL, ";", -1); //Berfungsi untuk menganti koma di akhir menjdi titik koma
     $Result1 = mysqli_query($koneksi, $a) or die(errorQuery(mysqli_error($koneksi)));
 
+    // Fungsi ketika tombol selesai di tekan maka akan menampilkan alert
     if ($Result1) {
         echo "<script>
             alert('Transaksi berhasil dilakukan!');
